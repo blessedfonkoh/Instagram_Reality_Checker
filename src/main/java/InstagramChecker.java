@@ -35,9 +35,18 @@ public class InstagramChecker {
 
         for (int i = 0; i < followingArray.length(); i++) {
             JSONObject obj = followingArray.getJSONObject(i);
-            String username = obj.getJSONArray("string_list_data").getJSONObject(0).getString("value");
+            String username;
+
+            // Some JSONs use "value", others "title"
+            if (obj.has("title")) {
+                username = obj.getString("title");
+            } else {
+                username = obj.getJSONArray("string_list_data").getJSONObject(0).getString("value");
+            }
+
             following.add(username);
         }
+
 
         System.out.println("People you follow who don't follow me back:");
         for (String user : following) {
